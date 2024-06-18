@@ -1,15 +1,19 @@
-name: Your name here
-description: Provide a description here
+name: Downstream Backport Helper
+description: GitHub Action that links upstream Pull Requests with downstream backport
 
 branding:
-  color: blue
-  icon: activity
+  icon: git-branch
+  color: green
 
 inputs:
-  milliseconds:
+  config-path:
+    required: false
+    default: .github/downstream-backport-helper.yml
+    description: Path to configuration file
+
+  token:
     required: true
-    description: input description here
-    default: default value if applicable
+    description: GitHub TOKEN or PAT
 
 runs:
   using: node20
