@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
   <img src="https://github.com/redhat-plumbers-in-action/team/blob/70f67465cc46e02febb16aaa1cace2ceb82e6e5c/members/black-plumber.png" width="100" />
-  <h1 align="center">TypeScript Action</h1>
+  <h1 align="center">Downstream Backport Helper</h1>
 </p>
 
 [![GitHub Marketplace][market-status]][market] [![Lint Code Base][linter-status]][linter] [![Unit Tests][test-status]][test] [![CodeQL][codeql-status]][codeql] [![Check dist/][check-dist-status]][check-dist]
@@ -30,23 +30,53 @@
 
 <!-- -->
 
-> ...
-
-## How does it work
-
-> ...
-
 ## Features
 
-> * ...
+TBD
 
 ## Usage
 
-> ...
+This action is intended to be used in upstream repository to help maintainers and contributors with backporting changes to the downstream (stable) repositories or branches. It is designed to be run on a schedule, see the example below.
 
-### Real-life examples
+```yml
+name: Stable Backport Helper
 
-> ...
+on:
+  schedule:
+    # every hour
+    - cron: "0 * * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  stable-backport-helper:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: jamacku/downstream-backport-helper@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+We also need to create a configuration file `.github/downstream-backport-helper.yml`:
+
+```yml
+downstream:
+  - owner: systemd
+    repo: systemd-stable
+    branches:
+      - '*-stable'
+  - owner: systemd
+    repo: systemd
+    branches:
+      - '*-stable'
+    status-title: 'systemd-stable'
+lookup-interval: 7
+```
 
 ## Configuration options
 
@@ -55,24 +85,99 @@ Action currently accepts the following options:
 ```yml
 # ...
 
-- uses: redhat-plumbers-in-action/typescript-action@v1
+- uses: redhat-plumbers-in-action/downstream-backport-helper@v1
   with:
-    milliseconds: <number>
+    config-path:  <path to config file>
+    token:        <GitHub token or PAT>
 
 # ...
 ```
 
-### milliseconds
+### config-path
 
-> ...
+Path to configuration file. Configuration file format is described in: [Config section](#config).
 
-> * default value: `undefined`
-> * requirements: `required`
+* default value: `.github/downstream-backport-helper.yml`
+* requirements: `optional`
 
-## Policy
+### token
 
-> ...
+GitHub token or PAT is used for creating labels and comments on Pull Request.
 
-## Limitations
+```yml
+# required permission
+permissions:
+  pull-requests: write
+```
 
-> ...
+* default value: `undefined`
+* requirements: `required`
+* recomended value: `secrets.GITHUB_TOKEN`
+
+## Config
+
+Action is configured using special config file: `.github/downstream-backport-helper.yml`. The structure needs to be as follows:
+
+```yml
+downstream:
+  - git-server: https://github.com
+    owner: systemd
+    repo: systemd-stable
+    branches:
+      - '*-stable'
+  - owner: systemd
+    repo: systemd
+    branches:
+      - '*-stable'
+    status-title: 'systemd-stable'
+lookup-interval: 7
+```
+
+### `downstream` keyword
+
+The array of objects that describe downstream repositories that action will monitor for backports.
+
+#### `git-server` keyword
+
+The Git server URL. Where the downstream repository is located.
+
+> [!NOTE]
+> This is currently tested only with GitHub repositories.
+
+* default value: `https://github.com`
+* requirements: `optional`
+
+#### `owner` keyword
+
+The owner of the downstream repository.
+
+* default value: `undefined`
+* requirements: `required`
+
+#### `repo` keyword
+
+The name of the downstream repository.
+
+* default value: `undefined`
+* requirements: `required`
+
+#### `branches` keyword
+
+The array of branch names that are considered as stable branches or branches where the backports commits are applied.
+
+* default value: `undefined`
+* requirements: `required`
+
+#### `status-title` keyword
+
+The title of the status that will be created on the upstream PRs. It is used to mark the PRs that are already backported to the downstream repository.
+
+* default value: `<owner>/<repo>`
+* requirements: `optional`
+
+### `lookup-interval` keyword
+
+The number of days that the action will look back in the history of the downstream repository to find the backported commits.
+
+* default value: `7`
+* requirements: `optional`
