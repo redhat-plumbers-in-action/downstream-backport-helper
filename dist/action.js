@@ -20,6 +20,7 @@ async function action(octokit) {
             alias: downstream['status-title'],
             commits: [],
         };
+        // TODO: Check only branches that are in the config
         for (const branch of branches) {
             startGroup(`Processing branch ${branch}`);
             git.checkout(branch);
@@ -121,7 +122,6 @@ async function action(octokit) {
     }
 }
 // TODO:
-// - Add summary message
 // - add support for labels
 //! - add tests
 export default action;

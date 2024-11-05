@@ -32,11 +32,13 @@
 
 ## Features
 
-TBD
+<picture>
+  <img src="docs/images/example-output.png" width="600" />
+</picture>
 
 ## Usage
 
-This action is intended to be used in upstream repository to help maintainers and contributors with backporting changes to the downstream (stable) repositories or branches. It is designed to be run on a schedule, see the example below.
+This action is intended to be used in the upstream repository to help maintainers and contributors backport changes to the downstream (stable) repositories or branches. It is designed to be run on a schedule; see the example below.
 
 ```yml
 name: Stable Backport Helper
@@ -95,14 +97,14 @@ Action currently accepts the following options:
 
 ### config-path
 
-Path to configuration file. Configuration file format is described in: [Config section](#config).
+The path to the configuration file. The configuration file format is described in the [Config section](#config).
 
 * default value: `.github/downstream-backport-helper.yml`
 * requirements: `optional`
 
 ### token
 
-GitHub token or PAT is used for creating labels and comments on Pull Request.
+A GitHub token or PAT is used to create labels and comments on Pull Request.
 
 ```yml
 # required permission
@@ -116,7 +118,7 @@ permissions:
 
 ## Config
 
-Action is configured using special config file: `.github/downstream-backport-helper.yml`. The structure needs to be as follows:
+Action is configured using a special config file: `.github/downstream-backport-helper.yml.` The structure needs to be as follows:
 
 ```yml
 downstream:
@@ -139,7 +141,7 @@ The array of objects that describe downstream repositories that action will moni
 
 #### `git-server` keyword
 
-The Git server URL. Where the downstream repository is located.
+The Git server URL where the downstream repository is located.
 
 > [!NOTE]
 > This is currently tested only with GitHub repositories.
@@ -163,14 +165,14 @@ The name of the downstream repository.
 
 #### `branches` keyword
 
-The array of branch names that are considered as stable branches or branches where the backports commits are applied.
+The array of branch names that are considered stable branches or branches where the backports commits are applied.
 
 * default value: `undefined`
 * requirements: `required`
 
 #### `status-title` keyword
 
-The title of the status that will be created on the upstream PRs. It is used to mark the PRs that are already backported to the downstream repository.
+The title of the status that will be created on the upstream PRs. It is used to mark the PRs that have already been backported to the downstream repository.
 
 * default value: `<owner>/<repo>`
 * requirements: `optional`
