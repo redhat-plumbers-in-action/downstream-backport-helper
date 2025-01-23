@@ -233,6 +233,7 @@ export declare const dataSchema: z.ZodObject<{
         alias?: string | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
+    pr: string;
     downstream: {
         name: string;
         commits: {
@@ -250,8 +251,8 @@ export declare const dataSchema: z.ZodObject<{
         }[];
         alias?: string | undefined;
     }[];
-    pr: string;
 }, {
+    pr: string;
     downstream: {
         name: string;
         commits: {
@@ -269,6 +270,5 @@ export declare const dataSchema: z.ZodObject<{
         }[];
         alias?: string | undefined;
     }[];
-    pr: string;
 }>;
 export type Data = z.infer<typeof dataSchema>;
