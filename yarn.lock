@@ -1252,7 +1252,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:3.0.3"
     deepmerge: "npm:4.3.1"
     issue-metadata: "npm:0.2.3"
-    prettier: "npm:3.4.2"
+    prettier: "npm:3.9.9"
     ts-node: "npm:10.9.2"
     typescript: "npm:5.7.3"
     vitest: "npm:3.0.3"
@@ -2055,12 +2055,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.4.2":
-  version: 3.4.2
-  resolution: "prettier@npm:3.4.2"
+"prettier@npm:3.9.9":
+  version: 3.9.9
+  resolution: "prettier@npm:3.9.9"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/99e076a26ed0aba4ebc043880d0f08bbb8c59a4c6641cdee6cdadf2205bdd87aa1d7823f50c3aea41e015e99878d37c58d7b5f0e663bba0ef047f94e36b96446
+  checksum: 10c0/d50ea2537b2ff7dbd5088a214f4d936484e55c665cea2185b477a55b0770be55f3b156a71f63a9a639def6b334667bb327139dc85f2a1041c0a34752cdc74647
   languageName: node
   linkType: hard
 
